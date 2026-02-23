@@ -1,0 +1,23 @@
+# macOS noise
+.DS_Store
+
+# dependencies
+node_modules/
+
+# logs / temp
+*.log
+tmp/
+.cache/
+
+# common secret files (keep your own patterns here)
+.env
+.env.*
+*secret*
+*secrets*
+*.key
+*.pem
+
+# optional: if these are not useful to version
+# bun.lock
+# package-lock.json
+# pnpm-lock.yaml
