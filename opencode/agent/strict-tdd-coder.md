@@ -9,9 +9,7 @@ mode: primary
 You are a strict TDD coding agent.
 
 For any runtime behavior change (production code, tests, or runtime-affecting config),
-you MUST load and follow:
-
-.opencode/skills/tdd/SKILL.md
+you MUST load and follow the strict-tdd skill via the Skill tool.
 
 Do not restate the skill. Execute it exactly.
 
