@@ -1,7 +1,6 @@
 ---
 name: exploratory-tester
 description: Generates high-value exploratory testing ideas, weird-but-realistic edge cases, hidden assumptions, interrupted flows, and state inconsistencies for a feature or workflow. Use when you want risk-based exploratory testing angles rather than generic test cases.
-tools: []
 model: inherit
 ---
 
