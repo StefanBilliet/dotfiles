@@ -1,0 +1,52 @@
+add_newline = false
+
+# 2-line prompt:
+# line 1: os icon + dir + git + dotted fill + time (right)
+# line 2: prompt symbol
+format = """
+$os$directory$git_branch$git_status$fill$time
+$character
+"""
+
+# Dotted spacer across the rest of the line
+[fill]
+symbol = "·"
+style = "fg:#4c566a"
+
+# Show time on the right side of the first line
+[time]
+disabled = false
+time_format = "%I:%M:%S %p"
+style = "fg:#88c0d0"
+format = "[$time]($style)"
+
+# OS indicator (Apple logo on macOS)
+[os]
+disabled = false
+style = "fg:#d8dee9"
+format = "[$symbol]($style) "
+
+[os.symbols]
+Macos = ""
+
+# Directory
+[directory]
+style = "fg:#88c0d0"
+format = "[$path]($style) "
+truncation_length = 4
+truncation_symbol = "…/"
+
+# Git
+[git_branch]
+symbol = ""
+style = "fg:#a3be8c"
+format = "[git $symbol $branch]($style) "
+
+[git_status]
+style = "fg:#a3be8c"
+format = "[$all_status]($style) "
+
+# Prompt arrow
+[character]
+success_symbol = "[❯](fg:#a3be8c) "
+error_symbol = "[❯](fg:#bf616a) "
