@@ -1,0 +1,15 @@
+[user]
+	name = Meester Stefan
+	email = stefan.billiet@corilus.be
+[init]
+	templatedir = /Users/stefanbilliet/Workspace/CareConnect-Net-Tarification-GitHooks/git-templates
+	defaultBranc = main
+	defaultBranch = main
+[merge]
+	tool = kdiff3
+[mergetool "kdiff3"]
+	path = /Applications/kdiff3.app/Contents/MacOS/kdiff3
+[push]
+	autoSetupRemote = true
+[core]
+	hookspath = /Users/stefanbilliet/Workspace/CareConnect-Net-Tarification-GitHooks/git-templates/hooks
