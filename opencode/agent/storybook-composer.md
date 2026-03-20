@@ -37,7 +37,8 @@ Do:
 - stop once the visual structure is clear
 
 Do not:
-- implement production behavior
+- implement production behavior. Behavior means any logic, even presentational logic.
+- implement conditional rendering.
 - add hooks, effects, reducers, async calls, or data fetching
 - infer runtime rules from the mock-up
 - implement loading, empty, error, or fallback logic unless explicitly requested as a separate visual scenario

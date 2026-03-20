@@ -1,6 +1,6 @@
 ---
 name: strict-tdd
-description: Strict micro-step TDD (Red/Green/Refactor) with stop-for-approval after every step
+description: Strict micro-step TDD (Red/Green/Refactor) with enforced on-disk edits, hard evidence, and stop-for-approval after every step
 license: MIT
 compatibility: opencode
 metadata:
@@ -10,160 +10,260 @@ metadata:
 
 ## What I do
 
-- Enforce strict micro-step **RED → GREEN → REFACTOR**
-- Require a hard stop and explicit user approval after **every** step
-- Standardize tests with **GIVEN / WHEN / THEN** naming
-- Enforce a clean test body layout (max 3 paragraphs) and `sut`/`_sut` naming
-- Prevent silent refactors and silent public API/contract changes
+- Enforce strict micro-step RED → GREEN → REFACTOR
+- Require a hard stop and explicit user approval after every step
+- Require real on-disk changes (not simulated)
+- Require evidence tied to actual edits
+- Prevent fake completion and narrative-only steps
+
+---
 
 ## When to use me
 
-Use this skill ONLY when changing runtime behavior:
-- adding/modifying production code
-- adding/modifying tests
-- changing config that affects runtime behavior
+Use ONLY when changing runtime behavior:
+- production code
+- tests
+- runtime-affecting config
 
-Do NOT force this loop for:
-- documentation changes
-- analysis/refinement
-- formatting-only changes
-- planning/ADRs (unless explicitly asked)
+Do NOT use for:
+- documentation
+- analysis
+- formatting
+- planning
 
-If it’s unclear whether a change affects runtime behavior, ask first.
+If unsure, ask.
 
 ---
 
 ## Core contract (non-negotiable)
 
-All behavioral changes follow strict:
+All behavioral changes follow:
 
-**RED → GREEN → REFACTOR**
+RED → GREEN → REFACTOR
 
-A “step” is exactly ONE of:
-1) **RED**: add/adjust a test so it fails for the correct reason
-2) **GREEN**: minimal code to make tests pass
-3) **REFACTOR**: cleanup while tests remain green
+A step is exactly ONE of:
+1) RED: add/modify a failing test
+2) GREEN: minimal code to pass
+3) REFACTOR: improve code without changing behavior
 
 After EVERY step:
 - STOP
-- summarize changes (files + short explanation)
-- show the exact test command (or what was run)
-- state the expected result
-- ask: **Proceed?**
+- show real evidence
+- summarize
+- ask: Proceed?
 
-Never combine phases.
-Never implement before a failing test exists (unless explicitly approved by the user).
+Never combine steps.
+Never skip RED.
 
 ---
 
-## Test style rules
+## 🚨 CRITICAL: Tool execution requirement
 
-### GIVEN / WHEN / THEN (test naming)
+Printing code is NOT a valid change.
 
-- Prefer **GIVEN / WHEN / THEN** structure in test names.
-- Use **GIVEN** only when a meaningful precondition exists.
-- Otherwise use **WHEN / THEN**.
-- GIVEN / WHEN / THEN must be uppercase in test names.
+A step is ONLY valid if:
+- a file was actually modified on disk using the edit/write mechanism
 
-### Test body layout: max three paragraphs (no comment blocks)
+If you did not modify a file on disk, you MUST output exactly:
 
-Each test body must have at most three logical paragraphs, separated by blank lines only:
+FAILED_TO_EDIT
 
-1) Setup (only if needed)
-2) Act (the invocation of the system under test)
-3) Assert (only assertions)
+Do NOT:
+- simulate edits
+- describe intended changes
+- present code as if it was applied
 
-Rules:
-- No comment markers like `// GIVEN` / `// WHEN` / `// THEN`
-- Do not mix setup, act, and assert in the same paragraph
-- The act paragraph must contain only the invocation of the system under test
+---
 
-### System Under Test naming
+## 🚨 CRITICAL: No fake state
 
-If the system under test is assigned to a variable/const:
-- Always name it `sut`
-- Or `_sut` if language conventions require a leading underscore
-- Never use alternative names like `service`, `instance`, `target`, etc.
+You may ONLY claim files changed if:
+- the edit/write tool succeeded in this turn
+
+Otherwise:
+
+FAILED_TO_EDIT
+
+Never claim success without an actual edit.
+
+---
+
+## 🚨 CRITICAL: Evidence must reflect real state
+
+After a successful edit, you MUST provide evidence tied to the actual change.
+
+Allowed evidence:
+- diff of the file
+- exact modified block from the file
+
+This must reflect what is now on disk.
 
 ---
 
 ## Micro-step discipline
 
 ### RED
-- Ensure the test fails for the intended reason.
-- If it fails due to wiring/typos/compile errors, fix the test until the failure is meaningful.
-- Do not change production code yet.
+
+Goal: create a failing test.
+
+Rules:
+- modify test code ONLY
+- failure must be meaningful
+- do not touch production code
+
+Execution requirements:
+1) Perform file edit FIRST
+2) If edit fails → FAILED_TO_EDIT
+
+Output:
+
+Applied on disk:
+<exact file path(s)>
+
+Edit evidence:
+<diff or exact modified test block>
+
+Command:
+<test command>
+
+Expected result:
+fail
+
+Then STOP and ask: Proceed?
+
+---
 
 ### GREEN
-- Implement the smallest change that makes the failing test pass.
-- No speculative abstractions.
-- No premature optimizations.
-- No unrelated cleanups.
+
+Goal: minimal implementation to pass test.
+
+Rules:
+- smallest possible change
+- no refactoring
+- no extras
+
+Execution requirements:
+1) Perform file edit FIRST
+2) If edit fails → FAILED_TO_EDIT
+
+Output:
+
+Applied on disk:
+<exact file path(s)>
+
+Edit evidence:
+<diff or modified code>
+
+Command:
+<test command>
+
+Expected result:
+pass
+
+Then STOP and ask: Proceed?
+
+---
 
 ### REFACTOR
-- Preserve behavior completely; keep tests green.
-- Refactor must reduce duplication, improve naming, or improve cohesion.
-- Do not introduce new abstractions unless clearly justified.
-- If behavior needs to change, start a new RED step.
 
-#### Refactor declaration requirement
-Before modifying code during REFACTOR, explicitly state:
-- what you plan to refactor
-- why it improves the code
-- which files are affected
-- whether public surface/contracts are involved
+Goal: improve code without changing behavior.
 
-If the refactor:
-- affects multiple files, or
-- significantly changes structure, or
-- touches public surface area
+Before applying:
 
-Then STOP and ask for approval before applying it.
+You MUST state:
+- what will change
+- why it improves code
+- files affected
+- public API impact
+
+If:
+- multiple files
+- structural changes
+- public API touched
+
+STOP and ask BEFORE editing.
+
+After approval and edit:
+
+Applied on disk:
+<files>
+
+Edit evidence:
+<diff>
+
+Command:
+<test command>
+
+Expected result:
+pass
+
+Then STOP and ask: Proceed?
 
 ---
 
 ## Public API / contract changes (strict)
 
-If a change affects any:
-- public classes/methods
-- exported symbols
-- constructor signatures
-- serialized structures
-- external contracts / integration boundaries
+If affecting:
+- public methods
+- constructors
+- serialized formats
+- external contracts
 
-Then:
-1) explicitly state:
-   - what changed
-   - why it changed
-   - whether it is breaking
-   - who/what could be affected
-2) STOP and ask for approval BEFORE applying the change (even if a test appears to require it)
-
-Do not silently modify public contracts in RED, GREEN, or REFACTOR.
-
-If a test seems to require changing a public API, first question whether the test expresses the right behavior and propose alternatives before changing the contract.
+You MUST:
+1) Explain change
+2) Explain impact
+3) State breaking or not
+4) STOP for approval BEFORE editing
 
 ---
 
 ## Guardrails
 
-- Do not refactor unrelated code.
-- Do not introduce new dependencies without approval.
-- Do not reorganize modules/folders without approval.
-- Do not broaden scope beyond the current micro-behavior.
-- If multiple strategies exist, propose options and STOP.
+- no unrelated refactors
+- no new dependencies
+- no restructuring
+- no scope expansion
+
+If multiple approaches exist:
+propose and STOP
 
 ---
 
-## Required output after every step
+## Step summary (ONLY after successful edit)
 
-### Step summary
 Phase: RED | GREEN | REFACTOR  
-Files changed:  
+Files changed:
+<actual files>
+
 What changed:
+<brief factual description>
 
-### Test run
-Command:  
-Expected result:
+---
 
-Proceed?
+## Output order (STRICT)
+
+1. Applied on disk
+2. Edit evidence
+3. Command
+4. Expected result
+5. Step summary
+6. Proceed?
+
+---
+
+## Important constraints
+
+- No edit → FAILED_TO_EDIT
+- No fake summaries
+- No code-only answers
+- No skipped steps
+
+---
+
+## Mental model
+
+You are not suggesting code.
+
+You are modifying a real repository.
+
+If the file was not changed on disk, the step did not happen.

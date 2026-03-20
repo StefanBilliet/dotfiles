@@ -13,3 +13,5 @@
 	autoSetupRemote = true
 [core]
 	hookspath = /Users/stefanbilliet/Workspace/CareConnect-Net-Tarification-GitHooks/git-templates/hooks
+[credential]
+	helper = osxkeychain

@@ -44,10 +44,12 @@ Responsibilities:
 - explore layout, hierarchy, and composition
 - represent visual scenarios explicitly
 - compose UI from existing components where possible
+- make the intended visual structure visible without implementing runtime rules
 
 Constraints:
-- do not implement Storybook directly
 - do not introduce runtime behavior
+- do not solve Storybook gaps by inventing future-ready component APIs
+- do not generalize the component for scenarios beyond the approved mockup
 
 ---
 
@@ -102,7 +104,8 @@ Use `storybook-composer` when:
 Use `strict-tdd-coder` when:
 - behavior is required
 - user interaction is introduced
-- state or conditional rendering is needed
+- state is introduced
+- conditional rendering is introduced as real runtime behavior
 - logic affects runtime output
 
 If a request mixes both:
@@ -134,6 +137,25 @@ Make the intended UI visible without implementing behavior.
 - no business logic
 - no real event handling
 
+### Static markup rule
+
+During Storybook composition, existing components **may be edited** to add **direct static presentational markup** when needed to make the approved visual scenario visible.
+
+Allowed examples:
+- static text
+- static labels
+- static badges
+- static helper text
+- static layout wrappers
+- hardcoded presentational markup for the approved mockup
+
+Forbidden during Storybook composition:
+- new props introduced only to drive mockup-only UI
+- conditional rendering introduced only to support mockup-only UI
+- derived display logic introduced only to support mockup-only UI
+- premature generalization for future scenarios
+- refactoring toward a reusable production-ready API
+
 ### Variants
 
 - represent variants as separate stories
@@ -158,6 +180,15 @@ Examples:
 - expanded / collapsed
 
 These are visual only unless explicitly requested as behavior.
+
+### Boundary rule
+
+Use this distinction:
+
+- **static presentation** is allowed in Storybook phase
+- **dynamic presentation** belongs to extraction or behavior work
+
+If the requested visual scenario cannot be represented with static markup alone, stop and state that the request has crossed into extraction or behavior work.
 
 ---
 
@@ -196,9 +227,11 @@ Create the smallest possible component that matches the static mockup.
 ## Heuristics
 
 - duplication in Storybook is acceptable
+- duplication in static mockup markup is acceptable
 - duplication in components is a signal, not an immediate problem
 - if unsure about phase, stop and determine phase first
 - prefer explicit over clever
+- prefer hardcoded static presentation over premature generalization during Storybook phase
 
 ---
 
@@ -207,6 +240,9 @@ Create the smallest possible component that matches the static mockup.
 - implementing behavior in Storybook
 - adding hooks during mockup phase
 - prematurely designing props
+- adding props only to support Storybook-only visuals
+- adding conditionals only to support Storybook-only visuals
+- deriving display rules for Storybook-only visuals
 - combining all variants into one component early
 - bypassing the TDD agent
 - large, mixed-concern changes
@@ -220,6 +256,8 @@ When this skill is active:
 
 - default to Storybook-first for UI work
 - delegate visual work to `storybook-composer`
+- allow static presentational edits during Storybook phase
+- forbid dynamic presentation during Storybook phase
 - delegate behavior to `strict-tdd-coder`
 - extract before implementing behavior
 - proceed in phases, not in one pass
@@ -230,11 +268,13 @@ If the current phase is unclear, stop and clarify before continuing.
 
 ## Summary
 
-- Storybook = static visual exploration  
-- Extraction = single variant, still static  
-- Behavior = handled by `strict-tdd-coder`  
+- Storybook = static visual exploration
+- Static markup may be added during Storybook phase
+- Dynamic presentation is not allowed during Storybook phase
+- Extraction = single variant, still static
+- Behavior = handled by `strict-tdd-coder`
 
 Delegation:
 
-- `storybook-composer` → UI  
-- `strict-tdd-coder` → behavior  
+- `storybook-composer` → UI
+- `strict-tdd-coder` → behavior
