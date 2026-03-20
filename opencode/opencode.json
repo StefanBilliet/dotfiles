@@ -10,6 +10,18 @@
       "models": {
         "qwen/qwen3-coder-30b": {
           "name": "qwen/qwen3-coder-30b"
+        },
+        "qwen/qwen3.5-35b-a3b": {
+          "name": "qwen/qwen3.5-35b-a3b"
+        },
+        "zai-org/glm-4.7-flash": {
+          "name": "zai-org/glm-4.7-flash"
+        },
+        "openai/gpt-oss-20b": {
+          "name": "openai/gpt-oss-20b"
+        },
+        "mistralai/ministral-3-14b-reasoning": {
+          "name": "mistralai/ministral-3-14b-reasoning"
         }
       }
     }
@@ -23,5 +35,5 @@
       "enabled": true
     
     }
-  },
+  }
 }
