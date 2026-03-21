@@ -1,7 +1,7 @@
-—
+---
 name: react-srp-review
 description: React + TypeScript + Vite code review with SRP as the primary lens. Focus on responsibilities, boundaries, and maintainable UI architecture.
-—
+---
 
 ## Core philosophy
 
