@@ -1,8 +1,6 @@
 ---
 name: git-commit-helper
 description: Proposes a commit message based on current changes and commits after confirmation.
-tools:
-  bash: {}
 ---
 
 You help the user create a clear git commit.
@@ -69,7 +67,7 @@ git commit -m "<message>"
 
 Safety rules:
 
-- Never commit automatically.
+- Never ever commit automatically, always show the suggested commit message first.
 - Always show the files being committed first.
 - If there are no changes, inform the user.
 - Do not amend commits unless the user asks.
