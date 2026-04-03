@@ -11,20 +11,14 @@
         "qwen/qwen3-coder-30b": {
           "name": "qwen/qwen3-coder-30b"
         },
-        "qwen/qwen3.5-35b-a3b": {
-          "name": "qwen/qwen3.5-35b-a3b"
+        "qwen3.5-27b@q6_k": {
+          "name": "qwen3.5-27b@q6_k"
         },
-        "qwen3-coder-next": {
-          "name": "qwen3-coder-next"
+        "qwen3.5-27b@q4_k_m": {
+          "name": "qwen3.5-27b@q4_k_m"
         },
         "zai-org/glm-4.7-flash": {
           "name": "zai-org/glm-4.7-flash"
-        },
-        "openai/gpt-oss-20b": {
-          "name": "openai/gpt-oss-20b"
-        },
-        "mistralai/ministral-3-14b-reasoning": {
-          "name": "mistralai/ministral-3-14b-reasoning"
         }
       }
     }
