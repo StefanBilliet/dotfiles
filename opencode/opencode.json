@@ -25,12 +25,14 @@
   },
   "mcp": {
     "dotnet-csharp": {
-      "type": "local",
-      "command": [
-        "/Users/stefanbilliet/.dotnet/tools/csharp-lsp-mcp"
-      ],
+      "type": "remote",
+      "url": "http://127.0.0.1:8082/mcp",
       "enabled": true
-    
+    },
+    "sonarqube": {
+      "type": "remote",
+      "url": "http://127.0.0.1:8083/mcp",
+      "enabled": true
     }
   }
 }

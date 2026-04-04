@@ -27,5 +27,7 @@ opencode/*
 !opencode/opencode.json
 !opencode/agent/
 !opencode/agent/**
+!opencode/bin/
+!opencode/bin/**
 !opencode/skills/
 !opencode/skills/**

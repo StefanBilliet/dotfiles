@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+service_name="sonarqube-mcp"
+account_name="SONARQUBE_TOKEN"
+sonarqube_url="${SONARQUBE_URL:-https://sonarcloud.io}"
+sonarqube_org="${SONARQUBE_ORG:-stefanbilliet}"
+
+token="$({ security find-generic-password -s "$service_name" -a "$account_name" -w 2>/dev/null; } || true)"
+
+if [[ -z "$token" ]]; then
+  printf 'Missing Keychain item: service=%s account=%s\n' "$service_name" "$account_name" >&2
+  exit 1
+fi
+
+export SONARQUBE_TOKEN="$token"
+export SONARQUBE_URL="$sonarqube_url"
+export SONARQUBE_ORG="$sonarqube_org"
+export SONARQUBE_READ_ONLY="true"
+
+if ! docker info >/dev/null 2>&1; then
+  printf 'Docker daemon is unavailable. Start Docker or OrbStack, then retry.\n' >&2
+  exit 1
+fi
+
+docker_args=(
+  run
+  --init
+  --pull=always
+  -i
+  --rm
+  -e SONARQUBE_TOKEN
+  -e SONARQUBE_ORG
+  -e SONARQUBE_URL
+  -e SONARQUBE_READ_ONLY
+)
+
+if [[ -n "${SONARQUBE_PROJECT_KEY:-}" ]]; then
+  export SONARQUBE_PROJECT_KEY
+  docker_args+=(-e SONARQUBE_PROJECT_KEY)
+fi
+
+if [[ -n "${SONARQUBE_READ_ONLY:-}" ]]; then
+  export SONARQUBE_READ_ONLY
+  docker_args+=(-e SONARQUBE_READ_ONLY)
+fi
+
+exec docker "${docker_args[@]}" mcp/sonarqube

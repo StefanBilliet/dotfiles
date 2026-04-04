@@ -1,0 +1,9 @@
+{
+  auto_https off
+}
+
+:8080 {
+  reverse_proxy sonarqube-mcp:8080 {
+    header_up Authorization "Bearer {env.SONARQUBE_TOKEN}"
+  }
+}
