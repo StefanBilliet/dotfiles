@@ -57,6 +57,27 @@ Never skip RED.
 
 ---
 
+## Test naming and structure
+
+Use GIVEN...WHEN...THEN...
+Only add GIVEN when GIVEN is a real domain precondition.
+
+A GIVEN must describe meaningful prior domain state that affects the test outcome.
+Do not use GIVEN for:
+- SUT construction
+- input object creation
+- fixture setup
+- generic boilerplate needed to run the test
+
+If the setup only exists so the test can execute, it is arrange/setup, not GIVEN.
+
+If there is no real domain precondition, name the test WHEN...THEN... only.
+
+Tests must follow arrange-act-assert flow, but do not add arrange/act/assert comments.
+Keep each test to at most 3 logical paragraphs.
+
+---
+
 ## 🚨 CRITICAL: Tool execution requirement
 
 Printing code is NOT a valid change.

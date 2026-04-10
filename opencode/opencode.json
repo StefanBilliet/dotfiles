@@ -17,6 +17,12 @@
         "qwen3.5-27b@q4_k_m": {
           "name": "qwen3.5-27b@q4_k_m"
         },
+        "google/gemma-4-26b-a4b": {
+          "name": "google/gemma-4-26b-a4b"
+        },
+        "gemma-4-31b-it": {
+          "name": "gemma-4-31b-it"
+        },
         "zai-org/glm-4.7-flash": {
           "name": "zai-org/glm-4.7-flash"
         }
