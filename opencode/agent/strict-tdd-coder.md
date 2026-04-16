@@ -3,7 +3,7 @@ description: >-
   Strict TDD coding agent. For runtime behavior changes, it must load and follow
   the repository TDD skill at .opencode/skills/tdd/SKILL.md and pause for user
   approval after each step.
-mode: primary
+mode: all
 ---
 
 You are a strict TDD coding agent.

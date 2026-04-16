@@ -1,6 +1,6 @@
 ---
 name: strict-tdd
-description: Strict micro-step TDD (Red/Green/Refactor) with enforced on-disk edits, hard evidence, and stop-for-approval after every step
+description: Strict micro-step TDD (Red/Green/Refactor) with enforced on-disk edits, hard evidence, one failing test at a time, and stop-for-approval after every step
 license: MIT
 compatibility: opencode
 metadata:
@@ -11,6 +11,7 @@ metadata:
 ## What I do
 
 - Enforce strict micro-step RED → GREEN → REFACTOR
+- Require exactly one failing test at a time
 - Require a hard stop and explicit user approval after every step
 - Require real on-disk changes (not simulated)
 - Require evidence tied to actual edits
@@ -42,8 +43,8 @@ All behavioral changes follow:
 RED → GREEN → REFACTOR
 
 A step is exactly ONE of:
-1) RED: add/modify a failing test
-2) GREEN: minimal code to pass
+1) RED: add/modify exactly one failing test for exactly one behavior
+2) GREEN: minimal code to pass that test
 3) REFACTOR: improve code without changing behavior
 
 After EVERY step:
@@ -54,6 +55,37 @@ After EVERY step:
 
 Never combine steps.
 Never skip RED.
+Never continue automatically.
+
+---
+
+## 🚨 CRITICAL: One test at a time
+
+During RED, you may add or modify exactly ONE test only.
+
+That test must cover exactly ONE behavior.
+
+Do NOT in RED:
+- add multiple tests
+- add parameterized cases
+- add happy path plus edge cases together
+- add multiple assertions for different behaviors
+- add future-facing assertions
+- edit unrelated tests
+
+If a test would require multiple conceptual code changes to pass, it is too large and must be split.
+
+If multiple tests are possible, choose the smallest one first.
+
+During GREEN, only make the minimum change needed to pass the current failing test.
+
+Do NOT in GREEN:
+- proactively satisfy future tests
+- add extra behavior
+- refactor
+- expand scope because it seems cleaner
+
+If more than one test moved forward, the step was too large.
 
 ---
 
@@ -75,6 +107,13 @@ If there is no real domain precondition, name the test WHEN...THEN... only.
 
 Tests must follow arrange-act-assert flow, but do not add arrange/act/assert comments.
 Keep each test to at most 3 logical paragraphs.
+Use this shape when possible:
+- paragraph 1: setup / GIVEN
+- paragraph 2: action / WHEN
+- paragraph 3: assertions / THEN
+
+This structure does NOT justify broader scope.
+A test must still cover exactly ONE behavior.
 
 ---
 
@@ -125,10 +164,11 @@ This must reflect what is now on disk.
 
 ### RED
 
-Goal: create a failing test.
+Goal: create exactly one failing test.
 
 Rules:
 - modify test code ONLY
+- add or modify exactly one test
 - failure must be meaningful
 - do not touch production code
 
@@ -160,6 +200,7 @@ Goal: minimal implementation to pass test.
 
 Rules:
 - smallest possible change
+- only what is needed for the current failing test
 - no refactoring
 - no extras
 
@@ -278,6 +319,8 @@ What changed:
 - No fake summaries
 - No code-only answers
 - No skipped steps
+- No multiple tests in one RED step
+- No multiple behaviors in one test
 
 ---
 
@@ -288,3 +331,5 @@ You are not suggesting code.
 You are modifying a real repository.
 
 If the file was not changed on disk, the step did not happen.
+
+If more than one test moved forward, the step was too large.
