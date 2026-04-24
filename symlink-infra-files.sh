@@ -2,18 +2,19 @@
 
 set -euo pipefail
 
-DOTFILES_DIR="/Users/stefanbilliet/Workspace/dotfiles"
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKUP_SUFFIX=".backup.$(date +%Y%m%d-%H%M%S)"
 
 echo "Linking dotfiles from $DOTFILES_DIR -> $HOME"
 
-link_file() {
-  local rel_path="$1"
-  local source="$DOTFILES_DIR/$rel_path"
-  local target="$HOME/$rel_path"
+link_path() {
+  local source_rel="$1"
+  local target_rel="$2"
+  local source="$DOTFILES_DIR/$source_rel"
+  local target="$HOME/$target_rel"
 
   if [ ! -e "$source" ]; then
-    echo "Skipping $rel_path (not found in dotfiles repo)"
+    echo "Skipping $target_rel (not found in dotfiles repo)"
     return
   fi
 
@@ -24,33 +25,41 @@ link_file() {
     current_target="$(readlink "$target")"
 
     if [ "$current_target" = "$source" ]; then
-      echo "Already linked: $rel_path"
+      echo "Already linked: $target_rel"
       return
     fi
 
-    echo "Replacing existing symlink: $rel_path"
+    echo "Replacing existing symlink: $target_rel"
     rm "$target"
   elif [ -e "$target" ]; then
     echo "Backing up existing file: $target -> $target$BACKUP_SUFFIX"
     mv "$target" "$target$BACKUP_SUFFIX"
   fi
 
-  echo "Linking $rel_path"
+  echo "Linking $target_rel"
   ln -s "$source" "$target"
 }
 
 # Shell
-link_file ".zshrc"
-link_file ".zprofile"
-link_file ".zshenv"
+link_path ".zshrc" ".zshrc"
+link_path ".zprofile" ".zprofile"
+link_path ".zshenv" ".zshenv"
 
 # Terminal
-link_file ".wezterm.lua"
+link_path ".wezterm.lua" ".wezterm.lua"
 
 # Git
-link_file ".gitconfig"
+link_path ".gitconfig" ".gitconfig"
 
 # Starship
-link_file ".config/starship.toml"
+link_path ".config/starship.toml" ".config/starship.toml"
+
+# OpenCode
+link_path "opencode/opencode.json" ".config/opencode/opencode.json"
+link_path "opencode/opencode-mem.jsonc" ".config/opencode/opencode-mem.jsonc"
+link_path "opencode/commands" ".config/opencode/commands"
+link_path "opencode/agent" ".config/opencode/agent"
+link_path "opencode/skills" ".config/opencode/skills"
+link_path "opencode/bin" ".config/opencode/bin"
 
 echo "Done"

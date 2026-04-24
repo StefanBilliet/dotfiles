@@ -25,6 +25,9 @@ tmp/
 # Ignore opencode runtime/config files at the repo root.
 opencode/*
 !opencode/opencode.json
+!opencode/opencode-mem.jsonc
+!opencode/commands/
+!opencode/commands/**
 !opencode/agent/
 !opencode/agent/**
 !opencode/bin/

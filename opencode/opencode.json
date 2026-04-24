@@ -8,23 +8,14 @@
         "baseURL": "http://127.0.0.1:1234/v1"
       },
       "models": {
-        "qwen/qwen3-coder-30b": {
-          "name": "qwen/qwen3-coder-30b"
-        },
-        "qwen3.5-27b@q6_k": {
-          "name": "qwen3.5-27b@q6_k"
-        },
-        "qwen3.5-27b@q4_k_m": {
-          "name": "qwen3.5-27b@q4_k_m"
-        },
         "google/gemma-4-26b-a4b": {
           "name": "google/gemma-4-26b-a4b"
         },
-        "gemma-4-31b-it": {
-          "name": "gemma-4-31b-it"
-        },
         "zai-org/glm-4.7-flash": {
           "name": "zai-org/glm-4.7-flash"
+        },
+        "qwen3.6-35b-a3b": {
+          "name": "qwen3.6-35b-a3b"
         }
       }
     }
@@ -40,5 +31,6 @@
       "url": "http://127.0.0.1:8083/mcp",
       "enabled": true
     }
-  }
+  },
+  "plugin": ["opencode-mem"]
 }
