@@ -26,6 +26,15 @@
       "url": "http://127.0.0.1:8082/mcp",
       "enabled": true
     },
+    "linear": {
+      "type": "remote",
+      "url": "https://mcp.linear.app/mcp",
+      "enabled": true,
+      "headers": {
+        "Authorization": "Bearer {env:LINEAR_API_KEY}"
+      },
+      "oauth": false
+    },
     "sonarqube": {
       "type": "remote",
       "url": "http://127.0.0.1:8083/mcp",
