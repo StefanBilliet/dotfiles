@@ -35,11 +35,18 @@
       },
       "oauth": false
     },
+    "notion": {
+      "type": "remote",
+      "url": "https://mcp.notion.com/mcp",
+      "enabled": true
+    },
     "sonarqube": {
       "type": "remote",
       "url": "http://127.0.0.1:8083/mcp",
       "enabled": true
     }
   },
-  "plugin": ["opencode-mem"]
+  "plugin": [
+    "opencode-mem"
+  ]
 }
