@@ -101,6 +101,8 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias stopvpn="launchctl unload /Library/LaunchAgents/com.paloaltonetworks.gp.pangps.plist && launchctl unload /Library/LaunchAgents/com.paloaltonetworks.gp.pangpa.plist && killall GlobalProtect"
 alias startvpn="launchctl load /Library/LaunchAgents/com.paloaltonetworks.gp.pangps.plist && launchctl load /Library/LaunchAgents/com.paloaltonetworks.gp.pangpa.plist && open -a GlobalProtect"
+alias gcloud-adc-login="gcloud auth application-default login"
+alias gcloud-login-all="gcloud auth login && gcloud auth application-default login"
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 export LS_COLORS="di=1;38;5;117:fi=0"
