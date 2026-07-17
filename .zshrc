@@ -113,6 +113,7 @@ export OLLAMA_API_BASE=http://localhost:11434
 export PATH="$HOME/.aspire/bin:$PATH"
 
 eval "$(starship init zsh)"
+unset STARSHIP_SESSION_KEY
 alias ls="eza --icons --group-directories-first"
 
 alias python=python3
@@ -124,3 +125,6 @@ export PATH="$PATH:/Users/stefanbilliet/.lmstudio/bin"
 
 #export OPENAI_API_KEY=dummy-api-key
 #export OPENAI_BASE_URL=http://localhost:1234/v1
+
+# Added by codebase-memory-mcp install
+export PATH="/Users/stefanbilliet/.local/bin:$PATH"

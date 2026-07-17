@@ -67,7 +67,7 @@ That test must cover exactly ONE behavior.
 
 Do NOT in RED:
 - add multiple tests
-- add parameterized cases
+- add examples for different behaviors to one parameterized test
 - add happy path plus edge cases together
 - add multiple assertions for different behaviors
 - add future-facing assertions
@@ -86,6 +86,41 @@ Do NOT in GREEN:
 - expand scope because it seems cleaner
 
 If more than one test moved forward, the step was too large.
+
+---
+
+## Test pressure
+
+Each test should increase pressure on the implementation.
+
+Before choosing the next RED step, ask:
+- What plausible wrong implementation would this test reject?
+- Does this test force new behavior, or merely confirm the current implementation?
+- Is this the smallest test that teaches something useful?
+- Would a simpler wrong implementation still pass all current tests?
+
+A strict TDD sequence should narrow the space of valid implementations until the simplest correct design becomes obvious.
+
+---
+
+## Convergence
+
+Strict TDD is a learning loop, not a ritual of tiny edits.
+
+Early implementations may be fake or narrow. As tests accumulate, the implementation should converge toward the simplest design that satisfies the tested behavior.
+
+After each GREEN step, reassess:
+- Is the current implementation still a useful fake?
+- Are tests now forcing a clearer rule or structure?
+- Would another small example teach something new?
+- Would combining related examples into a table-driven test better express the behavior?
+- Is the code becoming more complex than the behavior justifies?
+
+Converge only from test evidence. Do not add behavior that no test or approved contract requires.
+
+This does not permit scope expansion during GREEN. If convergence requires a broader test or table-driven examples, perform that as the next RED step.
+
+A table-driven test may contain multiple examples only when every row exercises the same behavior. Different behaviors require separate RED steps.
 
 ---
 
@@ -114,6 +149,38 @@ Use this shape when possible:
 
 This structure does NOT justify broader scope.
 A test must still cover exactly ONE behavior.
+
+---
+
+## Avoid implementation-coupled tests
+
+All tests must favor observable behavior over implementation details.
+
+Prefer asserting outcomes visible at a meaningful boundary:
+- returned values
+- persisted state
+- emitted events
+- queued jobs
+- calls to an injected collaborator that represents an external boundary
+- rendered accessible UI
+- published messages
+- domain state transitions
+
+Avoid tests that mainly assert internal implementation details:
+- constants are registered
+- helper functions are called
+- private/internal functions behave in isolation
+- internal mapping objects contain a key
+- modules export a symbol
+- code follows an anticipated structure
+- exact intermediate steps happen when only the final behavior matters
+
+Only test implementation-shaped artifacts directly when they are themselves the public contract or stable boundary.
+
+Before writing or modifying a test, ask:
+"If this implementation were refactored but the behavior stayed correct, should this test still pass?"
+
+If the answer is "no", choose a more behavioral test boundary.
 
 ---
 
